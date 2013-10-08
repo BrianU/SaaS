@@ -1,5 +1,5 @@
 def hello(name)
-  puts "Hello, #{name}"
+  return "Hello, #{name}"
 end
 
 def starts_with_consonant?(s)
@@ -12,3 +12,5 @@ def binary_multiple_of_4?(s)
   return false if !s.match(/\A(0|1)*.0{2}\z/)
   return true
 end
+
+
