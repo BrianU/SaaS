@@ -39,4 +39,3 @@ def sum_to_n?(array, sum_to_this)
     return false
 end
 
-puts sum_to_n?( [],0)
