@@ -4,7 +4,7 @@ end
 
 def starts_with_consonant?(s)
   return false if s.empty?
-  return false if s.downcase.match( /\A(a|e|i|o|u|)/)
+  return false if s.downcase.match( /\A(a|e|i|o|u)/)
   return true
 end
 
