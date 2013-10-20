@@ -14,3 +14,7 @@ class BookInStock
     return sprintf( "$%01.2f" , @price )
   end
 end
+
+aBook = BookInStock.new( "212121212X", 121.2 )
+
+puts aBook.inspect
