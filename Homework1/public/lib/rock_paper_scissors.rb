@@ -5,67 +5,91 @@ class RockPaperScissors
 
   def self.winner(player1, player2)
     # YOUR CODE HERE
-    player1 = Player.new(player1)
-    player2 = Player.new(player2)
+
     raise NoSuchStrategyError.new, 'Strategy must be one of R,P,S' unless
         player1.has_legal_strategy? and player2.has_legal_strategy?
 
-    puts player1.fight(player2)
+    winner =  player1.fight(player2)
+    return winner
+
 
 
   end
+
   def self.tournament_winner(tournament)
-    # YOUR CODE HERE
+    winners = []
+    if tournament.size == 1
+      return tournament[0]
+    end
+    tournament.each_slice(2) do |left, right|
+      winners.push( winner(left, right) )
+    end
+    puts "interim winners ... "
+    print winners
+    tournament_winner( winners )
   end
 end
 
-class Player
-  attr_accessor :name, :strategy
-  def initialize(player)
-    if player.empty?
-      return false
-    end
-    @strategy = player.pop
-    @name     = player.pop
-  end
+
+
+module RPS
   def has_legal_strategy?
-    if strategy.downcase.match(/[rps]/)
+    if self[1].to_s.match(/[rpsRPS]/)
       return true
     end
     return false
   end
   def fight(enemy)
-    puts "Big fight #{self.name} versus #{enemy.name}"
-    if strategy.downcase == 'r'
-      if enemy.strategy == 'p'
+    puts "Big fight #{self[0]} versus #{enemy[0]}"
+    if self[1] == 'R'
+      if enemy[1] == 'P'
         return enemy
-      elsif enemy.strategy == 's'
+      elsif enemy[1] == 'S'
         return self
-      elsif enemy.strategy == 'r'
+      elsif enemy[1] == 'R'
         return self
       end
     end
-    if strategy.downcase == 'p'
-      if enemy.strategy == 'p'
+    if self[1] == 'P'
+      if enemy[1] == 'P'
         return self
-      elsif enemy.strategy == 's'
+      elsif enemy[1] == 'S'
         return enemy
-      elsif enemy.strategy == 'r'
+      elsif enemy[1] == 'R'
         return self
       end
     end
-    if strategy.downcase == 's'
-      if enemy.strategy == 'p'
+    if self[1] == 'S'
+      if enemy[1] == 'P'
         return self
-      elsif enemy.strategy == 's'
+      elsif enemy[1] == 'S'
         return self
-      elsif enemy.strategy == 'r'
+      elsif enemy[1] == 'R'
         return enemy
       end
     end
   end
 end
 
+class Array
+  include RPS
+end
+
 @rock = ['Armando','R'] ; @paper = ['Dave','P'] ; @scissors = ['Sam','S']
 
-RockPaperScissors.winner(@rock, @scissors)
+tourney = [
+            [
+                [ ["Armando", "P"], ["Dave", "S"] ],
+                [ ["Richard", "R"],  ["Michael", "S"] ],
+            ],
+            [
+                [ ["Allen", "S"], ["Omer", "P"] ],
+                [ ["David E.", "R"], ["Richard X.", "P"] ]
+            ]
+        ]
+
+
+puts RockPaperScissors.tournament_winner([@rock,@scissors])
+
+puts RockPaperScissors.tournament_winner( tourney )
+
